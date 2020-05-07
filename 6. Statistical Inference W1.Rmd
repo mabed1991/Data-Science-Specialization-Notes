@@ -41,7 +41,7 @@ For instance, suppose we have a coin which may or may not be fair. Let x=0 repre
 #### PDF probability density function
 associated with a **continuous** random variable. To quote from Wikipedia, it "is a function that describes the relative likelihood for this random variable to take on a given value. The probability of the random variable falling within a particular range of values is given by ... the area under the density function but above the horizontal axis and between the lowest and greatest values of the range."
 
-```{r PDF, echo=FALSE}
+```{r PDF, echo=FALSE, fig.height=3, fig.width=4}
 x<- c(0,2,2,0,0)
 y<- c(0,0,1,1,0)
 plot(x, y, lwd = 3, frame = FALSE, type = "l")
@@ -72,7 +72,7 @@ When the random variable is continuous, as in the example, the PDF is the **deri
 
 To see this in the example, we've defined the function mypdf for you. This is the equation of the line represented by the diagonal of the rectangle. As the PDF, it is the derivative of F(x), the CDF.
 
-```{r integrate, echo=TRUE}
+```{r integrate }
 mypdf <- function(x){x/2}
 ##from swirl editor: polygon(c(0,.6,.6,0),c(0,0,.3,0),lwd=3, col="lightblue")
 #Now use the R function integrate to integrate mypdf with the parameters lower equal to 0and upper equal to 1.6. See if you get the same area (probability) you got before.
@@ -145,7 +145,7 @@ E(X) represents the center of mass of a collection of locations and weights, {x,
 - For a *continuous* random variable X, the expected value is defined analogously as it was for the discrete case. Instead of summing over discrete values, however, the expectation **integrates** over a continuous function.  
  It follows that for continuous random variables, E(X) is the **area** under the function `t*f(t)` , where f(t) is the PDF (probability density function) of X.
 
-```{r expect,echo=FALSE}
+```{r expect, echo=FALSE, fig.height=4, fig.width=6}
 par(mfrow = c(1, 2))
 plot(c(-0.25, 0, 2, 2, 2.25), c(0, 0, 1, 0, 0), type = "l", lwd = 3, frame = FALSE, xlab="", ylab = ""); title('f(t)')
 my_x <- seq(0,2,by=.1)
