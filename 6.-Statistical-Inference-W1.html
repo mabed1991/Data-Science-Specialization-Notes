@@ -408,8 +408,9 @@ summary {
 <p>When the random variable is continuous, as in the example, the PDF is the <strong>derivative</strong> of the CDF. So integrating the PDF (the line represented by the diagonal) yields the CDF. When you evaluate the CDF at the limits of integration the result is an area.</p>
 <p>To see this in the example, we’ve defined the function mypdf for you. This is the equation of the line represented by the diagonal of the rectangle. As the PDF, it is the derivative of F(x), the CDF.</p>
 <pre class="r"><code>mypdf &lt;- function(x){x/2}
-##from swirl editor: polygon(c(0,.6,.6,0),c(0,0,.3,0),lwd=3, col=&quot;lightblue&quot;)
-#Now use the R function integrate to integrate mypdf with the parameters lower equal to 0and upper equal to 1.6. See if you get the same area (probability) you got before.
+#Now use the R function integrate to integrate mypdf 
+#with the parameters lower equal to 0and upper equal to 1.6.
+#See if you get the same area (probability) you got before.
 
 integrate(mypdf,lower = 0,upper = 1.6)</code></pre>
 <pre><code>## 0.64 with absolute error &lt; 7.1e-15</code></pre>
