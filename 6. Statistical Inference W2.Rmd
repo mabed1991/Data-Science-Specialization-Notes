@@ -1,0 +1,23 @@
+---
+title: "6. Statistical Inference W2"
+date: "5/8/2020"
+output: 
+  html_document:
+    keep_md: true      
+---
+
+## Variance
+
+- The variance of a random variable, as a measure of spread or dispersion, is, like a mean, defined as an expected value. It is the expected squared distance of the variable from its mean.  
+Var(X) = E( (X-mu)^2 ) = E( (X-E(X))^2 ) = E(X^2)-E(X)^2
+
+- the **sample variance** is an unbiased estimator of **population variance**.  
+
+- if the population is infinite, the **variance of the sample mean is the population variance divided by the sample size**.  
+Specifically, **Var(X') = sigma^2 / n**.  
+where X' represents a sample mean, sigma represents population SD and n is the sample size.
+
+- Var(X') =Var(1/n* Sum(X_i))=(1/n^2 )* Var(Sum(X_i))=(1/n^2 )*Sum(sigma^2 )=sigma^2 /n for infinite populations when our samples are independent.
+
+- The standard deviation of a statistic is called its standard error, so the standard error of the sample mean is the square root of its variance.
+
