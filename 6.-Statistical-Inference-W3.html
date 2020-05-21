@@ -516,6 +516,10 @@ mn + c(-1,1)*qt(.975,9)*s/sqrt(10)</code></pre>
 <li><p>First we need a <strong>sample mean</strong>, but we have two, X’ and Y’, one from each group. It makes sense that we’d have to take their difference (Y’-X’) as well, since we’re looking for a confidence interval that contains the difference mu_y-mu_x.</p></li>
 <li><p>Now we need to specify a t <strong>quantile</strong>. Suppose the groups have different sizes n_x and n_y. For one group we used the quantile t_(.975,n-1). What do you think we’ll use for the quantile of this problem?<br />
 <code>t_(.975,n_x+n_y-2)</code></p></li>
+</ul>
+<div id="assuming-equal-variance" class="section level4">
+<h4>Assuming Equal Variance</h4>
+<ul>
 <li><p>The only term remaining is the <strong>standard error</strong> which for the single group is s/sqrt(n). Let’s deal with the numerator first. Our interval will assume (for now) a common variance s^2 across the two groups. We’ll actually <strong>pool variance</strong> information from the two groups using a weighted sum. (We’ll deal with the more complicated situation later.)</p></li>
 <li><p>We call the variance estimator we use the pooled variance. The formula for it requires two variance estimators (in the form of the standard deviation), S_x and S_y, one for each group. <em>We multiply each by its respective degrees of freedom and divide the sum by the total number of degrees of freedom</em>. This weights the respective variances; those coming from bigger samples get more weight.</p></li>
 <li><p>numerator: <code>(n_x-1)(S_x)^2+(n_y-1)(S_y)^2</code></p></li>
@@ -583,11 +587,33 @@ t.test(g2,g1,paired=TRUE)$conf</code></pre>
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.95</code></pre>
 <ul>
-<li>Just as we saw when we ran t.test on our vector, difference! See how the interval <strong>excludes 0</strong>? This means the groups <em>when paired have much different averages</em>.</li>
+<li><p>Just as we saw when we ran t.test on our vector, difference! See how the interval <strong>excludes 0</strong>? This means the groups <em>when paired have much different averages</em>.</p></li>
+<li><p>Calculate P Value for two groups with equal variance:</p></li>
 </ul>
+<pre class="r"><code># remember parameters
+data(sleep)
+g1 &lt;- sleep$extra[1 : 10]
+g2 &lt;- sleep$extra[11 : 20]
+n1 &lt;- length(g1)
+n2 &lt;- length(g2)
+x1 &lt;- mean(g1)
+x2 &lt;- mean(g2)
+s1&lt;- sd(g1)
+s2&lt;- sd(g2)
+
+# calculate manually
+s &lt;- sqrt(((n1 - 1) * s1^2 + (n2 - 1) * s2^2)/(n1 + n2 - 2))
+ts &lt;- (x1 - x2)/(s * sqrt(1/n1 + 1/n2))
+2 * pt(ts, n1 + n2 - 2)</code></pre>
+<pre><code>## [1] 0.07918671</code></pre>
+<pre class="r"><code>#calculate by t.test
+t.test(g2,g1,paired=FALSE,var.equal=TRUE)$p.value</code></pre>
+<pre><code>## [1] 0.07918671</code></pre>
+<pre class="r"><code>t.test(g2,g1,paired=TRUE)$p.value</code></pre>
+<pre><code>## [1] 0.00283289</code></pre>
 </div>
-<div id="two-groups-with-unequal-variances" class="section level3">
-<h3>Two Groups with Unequal Variances</h3>
+<div id="two-groups-with-unequal-variances" class="section level4">
+<h4>Two Groups with Unequal Variances</h4>
 <ul>
 <li><p>Now let’s talk about calculating confidence intervals for two groups which have unequal variances. We won’t be pooling them as we did before.</p></li>
 <li><p>In this case the formula for the interval is similar to what we saw before, <code>Y&#39;-X&#39; +/- t_df * SE</code> , where as before Y’-X’ represents the difference of the sample means. However, the standard error SE and the quantile t_df are calculated differently from previous methods.<br />
@@ -622,6 +648,7 @@ mydf &lt;- num/den
 <li>R makes things a lot <strong>easier!</strong>. If you call t.test with <strong>var.equal</strong> set to FALSE, then R calculates the degrees of freedom for you. You don’t have to memorize the formula.</li>
 </ul>
 <hr />
+</div>
 </div>
 </div>
 <div id="hypothesis-testing" class="section level2">
@@ -859,12 +886,12 @@ t.test(father.son$sheight - father.son$fheight)</code></pre>
 <pre><code>#code in the form
 Rejection region | Type I error rate |
 ---|---|
-[0 : 8] | 1
-[1 : 8] | 0.9960938
+[0 : 8] | `pbinom(-1, size = 8, p = .5, lower.tail = FALSE)`
+[1 : 8] | `pbinom( 0, size = 8, p = .5, lower.tail = FALSE)`
 ...
 
-[7 : 8] | 0.0351563
-[8 : 8] | 0.0039062</code></pre>
+[7 : 8] | `pbinom( 6, size = 8, p = .5, lower.tail = FALSE)`
+[8 : 8] | `pbinom( 7, size = 8, p = .5, lower.tail = FALSE)`</code></pre>
 <table>
 <thead>
 <tr class="header">
